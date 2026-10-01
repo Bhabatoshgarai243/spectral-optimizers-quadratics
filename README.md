@@ -1,16 +1,15 @@
-# Reproducibility package: Constant Step Sizes for Muon-Type Spectral Optimizers on Strongly Convex Quadratics
+# Reproducibility package: Muon on quadratics
 
-This repository contains the numerical experiments used in the
-manuscript **Constant Step Sizes for Muon-Type Spectral Optimizers on Strongly Convex Quadratics**. The experiments compare spectral gradient
-shaping methods on quadratic objectives and reproduce the four panels reported
-in the paper.
+This repository contains the numerical experiments used in the manuscript
+**Constant Step Sizes for Muon-Type Spectral Optimizers on Strongly Convex
+Quadratics**. The experiments compare spectral gradient shaping methods on
+quadratic objectives and reproduce the paper's figures.
 
 The code is intentionally small and self-contained:
 
 | Experiment | Script | Main result |
 | --- | --- | --- |
-| P1: step-size threshold | `P1.py` | `P1_step_size_threshold.svg` |
-| P2: local rate | `P2.py` | `P2_local_rate.svg` |
+| P1/P2 combined figure | `P1_2.py` | `P1_P2_combined.pdf` |
 | P3: Newton–Schulz, polar, PolarGrad, and GD comparison | `P3.py` | `P3_updated_polargrad.pdf` |
 | P4: local rate and denominator constant | `P4.py` | `P4_results.md` |
 
@@ -36,15 +35,33 @@ python run_experiments.py
 On macOS/Linux, replace the activation command with
 `source .venv/bin/activate`.
 
+### Option B: conda/mamba
 
+```powershell
+conda env create -f environment.yml
+conda activate muon-quadratics
+python run_experiments.py
+```
+
+The runner uses Matplotlib's non-interactive `Agg` backend, so it works on
+headless machines and in continuous integration. It executes each experiment
+in a clean output directory and writes the generated files to `results/`.
+
+To choose another output directory:
+
+```powershell
+python run_experiments.py --output-dir results\my-run
+```
+
+The run takes a few minutes on a typical laptop because the experiments use
+long iteration loops and repeated SVDs.
 
 ## Expected outputs
 
 After a successful run, `results/` contains:
 
 ```text
-P1_step_size_threshold.svg
-P2_local_rate.svg
+P1_P2_combined.pdf
 P3_updated_polargrad.pdf
 P4_results.md
 ```
@@ -66,19 +83,22 @@ should remain unchanged.
 
 ```text
 .
-├── P1.py
-├── P2.py
+├── P1_2.py
 ├── P3.py
 ├── P4.py
 ├── run_experiments.py
 ├── requirements.txt
 ├── environment.yml
-├── P1_step_size_threshold.svg
-├── P2_local_rate.svg
+├── P1_P2_combined.pdf
 ├── P3_updated_polargrad.pdf
 └── P4_results.md
 ```
 
+The SVG figures and `P4_results.md` at the repository root are reference
+artifacts from the supplied manuscript experiments. P3 now produces a PDF
+figure because the updated experiment includes five curves and an inset.
+New runs should be written under `results/` so that reference files are not
+overwritten.
 
 ## Reproducibility notes
 
@@ -87,8 +107,8 @@ should remain unchanged.
 * The random generator is NumPy's `default_rng` with seed `20260912`.
 * The quadratic Hessians have eigenvalues logarithmically spaced between
   `1/30` and `1`, hence condition number 30.
-* P3 uses a dense orthogonally rotated Hessian; P1, P2, and P4 use a diagonal
-  Hessian.
+* P3 uses a dense orthogonally rotated Hessian; P1/P2 and P4 use diagonal
+  Hessians.
 * No data download, network access, GPU, or proprietary software is required.
 
 ## Citation
@@ -96,7 +116,8 @@ should remain unchanged.
 If you use this code, please cite the associated ICASSP 2027 manuscript:
 
 > Bhabatosh [authors and final bibliographic information to be added],
-> “Constant Step Sizes for Muon-Type Spectral Optimizers on Strongly Convex Quadratics,” ICASSP 2027.
+> “Constant Step Sizes for Muon-Type Spectral Optimizers on Strongly Convex
+> Quadratics.”
 
 Please replace the placeholder author/bibliographic information above with the
 final camera-ready citation before publishing the repository.

@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 
-EXPERIMENTS = ("P1.py", "P2.py", "P3.py", "P4.py")
+EXPERIMENTS = ("P1_2.py", "P3.py", "P4.py")
 
 
 def parse_args() -> argparse.Namespace:
