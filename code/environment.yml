@@ -1,0 +1,7 @@
+name: muon-quadratics
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy=2.2.6
+  - matplotlib=3.10.6
